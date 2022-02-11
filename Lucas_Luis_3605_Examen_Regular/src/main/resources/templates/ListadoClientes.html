@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<header>
+		<div th:insert="layout/header :: header"></div>
+	</header>
+	<div class = "container">
+		<div class="row">
+			<section class="col-md-9">
+			<div class="row">
+					<div class="col-md-12">
+						<h1 class="text-center">Listado de clientes</h1>
+						<table class="table">
+						  <thead class="table-dark">
+						    <tr>
+						      <th scope="col">Código</th>
+						      <th scope="col">Apellido</th>
+						      <th scope="col">Nombre</th>
+						      <th scope="col">Usuario</th>
+						    </tr>
+						  </thead>
+						  <tbody>
+						    <tr th:each="listado:${clientes}">
+						      <th th:text="${listado.codigo}"></th>
+						      <td th:text="${listado.apellido}"></td>
+						      <td th:text="${listado.nombre}"></td>
+						      <td th:text="${listado.usuario}"></td>
+						    </tr>
+						  </tbody>
+						</table>
+					</div>
+				</div>
+			</section>
+			<aside class="col-md-3">
+				<div th:insert="layout/aside :: aside"></div>
+			</aside>
+		</div>
+	</div>
+	<footer>
+		<div th:insert="layout/footer :: footer"></div>
+	</footer>
+	
+	
+</body>
+</html>

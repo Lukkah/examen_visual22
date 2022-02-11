@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<header>
+		<div th:insert="layout/header :: header"></div>
+	</header>
+	<div class = "container">
+		<div class="row">
+			<section class="col-md-9">
+				<h1>Buscar Libro</h1>
+				<form>
+					<div>
+						<label>Ingrese Codigo del Libro</label> <input 
+							type="text" class="form-control" />
+					</div>
+
+					<div class="form-group row">
+						<div class="col-sm-12 text-center">
+							<input type="submit" value="buscar" class="btn btn-primary">
+						</div>
+					</div>
+				</form>
+				<div class="table-responsive">
+					<table class="table">
+						  <thead class="table-dark">
+						    <tr>
+						      <th scope="col">Código</th>
+						      <th scope="col">Autor</th>
+						      <th scope="col">Título</th>
+						      <th scope="col">Fecha de Publicación</th>
+						    </tr>
+						  </thead>
+						  <tbody>
+						  
+						    <tr th:each="listado:${libros}">
+						      <th th:text="${listado.codigo}"></th>
+						      <td th:text="${listado.autor}"></td>
+						      <td th:text="${listado.nombre}"></td>
+						      <td th:text="${listado.fechaPublicacion}"></td>
+						    </tr>
+						  </tbody>
+						</table>
+						</div>
+				
+				
+				
+			</section>
+			<aside class="col-md-3">
+				<div th:insert="layout/aside :: aside"></div>
+			</aside>
+		</div>
+	</div>
+	<footer>
+		<div th:insert="layout/footer :: footer"></div>
+	</footer>
+	
+	
+</body>
+</html>
