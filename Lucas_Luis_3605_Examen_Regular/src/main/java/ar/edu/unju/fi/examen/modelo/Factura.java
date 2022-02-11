@@ -1,12 +1,42 @@
 package ar.edu.unju.fi.examen.modelo;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.stereotype.Component;
+
+@Component
+@Entity
 public class Factura {
 	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(nullable =false)
 	private int codigo;
-	private Libro libro;
-	private Cliente cliente;
+	
+	@OneToMany(mappedBy = "venta")
+	private List<Libro> libros = new ArrayList<Libro>();
+	
+	@Autowired
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "CLIENTE_ID")
+	private Cliente comprador;
+	
+	@Column(name = "FECHA_COMPRA")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate fechaCompra;
 	
 	@Override
@@ -19,11 +49,13 @@ public class Factura {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Factura(int codigo, Libro libro, Cliente cliente, LocalDate fechaCompra) {
+	
+
+	public Factura(int codigo, List<Libro> libros, Cliente comprador, LocalDate fechaCompra) {
 		super();
 		this.codigo = codigo;
-		this.libro = libro;
-		this.cliente = cliente;
+		this.libros = libros;
+		this.comprador = comprador;
 		this.fechaCompra = fechaCompra;
 	}
 
@@ -35,20 +67,13 @@ public class Factura {
 		this.codigo = codigo;
 	}
 
-	public Libro getLibro() {
-		return libro;
-	}
-
-	public void setLibro(Libro libro) {
-		this.libro = libro;
-	}
 
 	public Cliente getCliente() {
-		return cliente;
+		return comprador;
 	}
 
 	public void setCliente(Cliente cliente) {
-		this.cliente = cliente;
+		this.comprador = cliente;
 	}
 
 	public LocalDate getFechaCompra() {
@@ -57,6 +82,22 @@ public class Factura {
 
 	public void setFechaCompra(LocalDate fechaCompra) {
 		this.fechaCompra = fechaCompra;
+	}
+
+	public List<Libro> getLibros() {
+		return libros;
+	}
+
+	public void setLibros(List<Libro> libros) {
+		this.libros = libros;
+	}
+
+	public Cliente getComprador() {
+		return comprador;
+	}
+
+	public void setComprador(Cliente comprador) {
+		this.comprador = comprador;
 	}
 	
 	
