@@ -9,6 +9,11 @@ import ar.edu.unju.fi.examen.modelo.Factura;
 
 public interface IVentaDAO extends JpaRepository<Factura, Long>{
 
+	/**
+	 * Método que obtiene un listado de facturas de la base de datos
+	 * Ordenado por el número de código
+	 * @return listado de facturas
+	 */
 	@Query("from Factura f order by f.codigo")
 	public List<Factura> getFacturas();
 }

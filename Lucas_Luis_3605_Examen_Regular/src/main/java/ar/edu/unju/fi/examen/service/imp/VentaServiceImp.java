@@ -20,8 +20,7 @@ import ar.edu.unju.fi.examen.service.IVentaService;
 
 @Service
 public class VentaServiceImp implements IVentaService {
-
-	public final static Log LOGGER = LogFactory.getLog("VentaServiceImp");
+	private final static Log LOGGER = LogFactory.getLog("VentaServiceImp");
 	
 	@Autowired
 	IVentaDAO ventaDaoImp;
@@ -36,45 +35,44 @@ public class VentaServiceImp implements IVentaService {
 	@Autowired
 	Factura factura;
 	
+	/**
+	 * Método que recupera el listado de facturas de la base de datos
+	 * se usa????
+	 */
 	@Override
 	public List<Factura> getFacturaList() {
 		return ventaDaoImp.getFacturas();
 	}
 
-	
+	/**
+	 * Método que permite regustrar una venta en la base de datos
+	 * 
+	 */
 	@Override
 	public void registrarVenta(List<Libro> libros, Cliente cliente) {
-				List<Libro> librosAux = new ArrayList<Libro>();
-				factura = new Factura();
-				factura.setCliente(cliente);
-				//factura.setLibro(libro);
-				for (Libro libro : libros) {
-					librosAux.add(libroDaoImp.findByCodigo(libro.getCodigo()));
-				}
-
-				//factura.setLibros(libroDaoImp.findAll());
-
-				factura.setLibros(librosAux);
-				factura.setFechaCompra(LocalDate.now());
-				ventaDaoImp.save(factura);
-				LOGGER.info("**********VENTA REGISTRADA*****************");
-				//LOGGER.info("LIBRO "+ factura.getLibro().getNombre()+" CLIENTE "+ factura.getCliente().getApellido());
-			
 		
-	}
-
-
-
-
-	@Override
-	public void addLibroToFactura(Libro libro) {
-		// TODO Auto-generated method stub
-
-	}
-	@Override
-	public void generateFacturaList() {
-		// TODO Auto-generated method stub
 		
+		//Lista de libros auxiliar que guardará los libros traidos de la base de datos
+		List<Libro> librosAux = new ArrayList<Libro>();
+		
+		//Creo la factura de la venta que se guardará
+		factura = new Factura();
+		
+		//Registro el cliente y los libros en la factura
+		factura.setCliente(cliente);
+		for (Libro libro : libros) {
+			//Debo traer los libros de la base de datos, ya que no puedo guardar la factura con
+			//una lista creada de forma auxiliar
+			librosAux.add(libroDaoImp.findByCodigo(libro.getCodigo()));
+		}
+		
+		//Registro los libros comprados en la factura
+		factura.setLibros(librosAux);
+		//Registro la fecha de compra
+		factura.setFechaCompra(LocalDate.now());
+		
+		//Guardo la factura en la base de datos
+		ventaDaoImp.save(factura);
 	}
 
 }

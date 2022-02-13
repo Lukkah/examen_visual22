@@ -11,10 +11,17 @@ public interface IClienteService {
 	
 	public Cliente getClienteByCodigo(int codigo);
 	
-	public void generateClientesList();
-	
-	public void addFacturaToClient(Factura factura, Cliente cliente);
-
 	public Factura getFacturaByCodigo(int codigo, Cliente cliente);
+	
+	/**
+	 * Genera una lista de clientes, para probar sin la conexión a la base 
+	 * de datos
+	 * @param factura
+	 * @param cliente
+	 */
+	//public void generateClientesList();
+	
+	//public void addFacturaToClient(Factura factura, Cliente cliente);
+
 	
 }

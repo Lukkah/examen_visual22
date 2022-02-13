@@ -32,14 +32,20 @@ public class ClienteServiceImp implements IClienteService{
 	@Autowired
 	IVentaService facturaServiceImp;
 	
+	
+	/**
+	 * Método que devuelve un listado de clientes de la base de datos
+	 */
 	@Override
 	public List<Cliente> getClientesList() {
 		return clienteDaoImp.getClientes();
 	}
 
+	/**
+	 * Método que devuelve un cliente según su número de código
+	 */
 	@Override
 	public Cliente getClienteByCodigo(int codigo) {
-		
 		
 		/*
 		Cliente cliente3 = new Cliente();
@@ -56,10 +62,37 @@ public class ClienteServiceImp implements IClienteService{
 		LOGGER.info("Codigo entrante: "+ codigo + " == Codigo cliente saliente: "+ cliente3.getCodigo());
 		return cliente3;
 		*/
-		
 		return clienteDaoImp.findByCodigo(codigo);
 	}
 
+	
+	
+	
+	/**
+	 * Método que obtiene una factura determinada de un cliente
+	 * según el código de la factura recibida por parámetro
+	 */
+	@Override
+	public Factura getFacturaByCodigo(int codigoFactura, Cliente cliente) {
+		//Creo una factura auxiliar
+		Factura facturaAux = new Factura();
+		
+		//Recorro el listado de compras del cliente(facturas)
+		for (Factura factura : getClienteByCodigo(cliente.getCodigo()).getCompras()) {
+			//Almaceno la factura encontrada cuyo código coincide con el enviado por parámetro
+			if(factura.getCodigo() == codigoFactura) {
+				facturaAux = factura;
+				//LOGGER.info("---------Factura encontrada-------------");
+				//LOGGER.info("codigo: " + facturaAux.getLibros().size());
+			}
+		}
+		
+		//devuelvo la factura encontrada
+		return facturaAux;
+	}
+
+	/*
+	 * 
 	@Override
 	public void generateClientesList() {
 		if(clientes.size()==0) {
@@ -82,7 +115,11 @@ public class ClienteServiceImp implements IClienteService{
 			
 		}
 	}
-
+	*/
+	
+	/**
+	 * ???????????????????????
+	 
 	@Override
 	public void addFacturaToClient(Factura factura, Cliente cliente) {
 		List<Factura> facturasAux = new ArrayList<Factura>();
@@ -96,18 +133,7 @@ public class ClienteServiceImp implements IClienteService{
 			}
 		}
 	}
+	*/
 	
-	@Override
-	public Factura getFacturaByCodigo(int codigo, Cliente cliente) {
-		Factura facturaAux = new Factura();
-		for (Factura factura : getClienteByCodigo(cliente.getCodigo()).getCompras()) {
-			if(factura.getCodigo() == codigo) {
-				facturaAux = factura;
-				//LOGGER.info("---------Factura encontrada-------------");
-				//LOGGER.info("codigo: " + facturaAux.getLibros().size());
-			}
-		}
-		return facturaAux;
-	}
-
+	
 }

@@ -1,6 +1,5 @@
 package ar.edu.unju.fi.examen.service.imp;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,11 +24,18 @@ public class LibroServiceImp implements ILibroService {
 	@Autowired
 	ILibroDAO libroDao;
 	
+	/**
+	 * Método que devuelve un listado de libros
+	 */
 	@Override
 	public List<Libro> getLibrosList() {
 		return libroDao.getLibros();
 	}
-
+	
+	
+	/**
+	 * Método que devuelve un libro según su número de código
+	 */
 	@Override
 	public Libro getLibroByCodigo(int codigo) {
 		/*
@@ -44,6 +50,7 @@ public class LibroServiceImp implements ILibroService {
 		return libroDao.findByCodigo(codigo);
 	}
 
+	/**
 	@Override
 	public void generateLibrosList() {
 		if(libros.size() == 0) {
@@ -63,5 +70,5 @@ public class LibroServiceImp implements ILibroService {
 		}
 
 	}
-
+	*/
 }

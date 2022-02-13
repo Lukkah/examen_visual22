@@ -36,18 +36,15 @@ public class Cliente {
 	@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
 	private List<Factura> compras = new ArrayList<Factura>();
 	
-	
+	//ToString---------------------------------------------------------------------------
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
 		return super.toString();
 	}
 	
+	//Constructores----------------------------------------------------------------------
 	public Cliente() {
-		// TODO Auto-generated constructor stub
 	}
-	
-	
 	
 
 	public Cliente(int codigo, String apellido, String nombre, String usuario, String password, List<Factura> compras) {
@@ -60,6 +57,8 @@ public class Cliente {
 		this.compras = compras;
 	}
 
+	//Métodos accesores-------------------------------------------------------------------
+	
 	public int getCodigo() {
 		return codigo;
 	}

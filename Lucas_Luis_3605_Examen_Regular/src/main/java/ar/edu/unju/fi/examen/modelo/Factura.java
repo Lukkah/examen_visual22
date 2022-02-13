@@ -14,7 +14,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -44,14 +43,17 @@ public class Factura {
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate fechaCompra;
 	
+	
+	//ToString-----------------------------------------------------------------------
+	
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
 		return super.toString();
 	}
 	
+	//Constructores------------------------------------------------------------------
+	
 	public Factura() {
-		// TODO Auto-generated constructor stub
 	}
 
 	
@@ -64,6 +66,9 @@ public class Factura {
 		this.fechaCompra = fechaCompra;
 	}
 
+	
+	//Métodos accesores---------------------------------------------------------------
+	
 	public int getCodigo() {
 		return codigo;
 	}

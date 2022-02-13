@@ -1,19 +1,12 @@
 package ar.edu.unju.fi.examen.modelo;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Component;
@@ -37,6 +30,7 @@ public class Libro {
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate fechaPublicacion;
 	
+	//ToString------------------------------------------------------------------------
 	
 	@Override
 	public String toString() {
@@ -45,12 +39,11 @@ public class Libro {
 	}
 
 
-
+	//Constructores-------------------------------------------------------------------
+	
 	public Libro() {
 		super();
 	}
-
-
 	
 	public Libro(int codigo, String nombre, String autor, LocalDate fechaPublicacion) {
 		super();
@@ -60,7 +53,7 @@ public class Libro {
 		this.fechaPublicacion = fechaPublicacion;
 	}
 
-
+	//Métodos accesores----------------------------------------------------------------
 
 	public int getCodigo() {
 		return codigo;

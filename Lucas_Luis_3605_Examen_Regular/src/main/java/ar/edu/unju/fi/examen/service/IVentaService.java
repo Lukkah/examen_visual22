@@ -8,11 +8,9 @@ import ar.edu.unju.fi.examen.modelo.Libro;
 
 public interface IVentaService {
 	
-	//????????????
-	public List<Factura> getFacturaList();
-	public void generateFacturaList();
-	public void addLibroToFactura(Libro libro);
-	//????????????
-	
 	public void registrarVenta(List<Libro>libros, Cliente cliente);
+	
+	public List<Factura> getFacturaList();
+
+	
 }

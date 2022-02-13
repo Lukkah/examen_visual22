@@ -15,16 +15,7 @@ import ar.edu.unju.fi.examen.service.IClienteService;
 
 @Controller
 public class ClienteController {
-	public final static Log LOGGER = LogFactory.getLog("ClienteController");
-	
-	/*
-	Cliente cliente1 = new Cliente();
-
-	Cliente cliente2 = new Cliente();
-	
-	List<Cliente> clientes = new ArrayList<Cliente>();
-	
-	*/
+	private final static Log LOGGER = LogFactory.getLog("ClienteController");
 	
 	@Autowired
 	IClienteService clienteServiceImp;
@@ -34,8 +25,11 @@ public class ClienteController {
 	
 	@GetMapping("/clientes")
 	public String getListadoClientesPage(Model model) {
-		
-		clienteServiceImp.generateClientesList();
+		LOGGER.info("CONTROLLER: ClienteController w /clientes GET METHOD");
+		LOGGER.info("METHOD: getListadoClientesPage()");
+		LOGGER.info("RESULT: Visualiza la página de listado de clientes");
+		//Genera un listado de clientes, para usar sin conexión a la base de datos
+		//clienteServiceImp.generateClientesList();
 		model.addAttribute("clientes",clienteServiceImp.getClientesList());
 		model.addAttribute("cliente",cliente);
 		model.addAttribute("cliente2",cliente);
@@ -46,11 +40,9 @@ public class ClienteController {
 	
 	@PostMapping("/getCliente2")
 	public ModelAndView getCliente2(@ModelAttribute("cliente") Cliente cliente2) {
-		/**
-		 * Debo buscar al cliente en la base de datos usando elk código del cliente que
-		 *  traigo como parámetro.
-		 *  Guardar el listado de ventas en el model o el cliente con las ventas cargadas.
-		 */
+		LOGGER.info("CONTROLLER: ClienteController w /getCliente POST METHOD");
+		LOGGER.info("METHOD: ggetCliente2()");
+		LOGGER.info("RESULT: Obtiene el listado de ventas de un cliente");
 		ModelAndView model = new ModelAndView("ListadoClientes");
 		model.addObject("clientes",clienteServiceImp.getClientesList());
 		model.addObject("cliente2",clienteServiceImp.getClienteByCodigo(cliente2.getCodigo()));
