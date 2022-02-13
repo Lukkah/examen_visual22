@@ -33,7 +33,7 @@ public class Cliente {
 	@Column
 	private String password;
 	
-	@OneToMany(mappedBy = "comprador", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
 	private List<Factura> compras = new ArrayList<Factura>();
 	
 	

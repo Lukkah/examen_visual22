@@ -11,6 +11,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
@@ -27,13 +29,16 @@ public class Factura {
 	@Column(nullable =false)
 	private int codigo;
 	
-	@OneToMany(mappedBy = "venta")
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "libros_factura", 
+	joinColumns = @JoinColumn(name = "FACTURA_ID"),
+	inverseJoinColumns = @JoinColumn(name = "LIBROS_ID"))
 	private List<Libro> libros = new ArrayList<Libro>();
 	
 	@Autowired
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "CLIENTE_ID")
-	private Cliente comprador;
+	private Cliente cliente;
 	
 	@Column(name = "FECHA_COMPRA")
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -51,11 +56,11 @@ public class Factura {
 
 	
 
-	public Factura(int codigo, List<Libro> libros, Cliente comprador, LocalDate fechaCompra) {
+	public Factura(int codigo, List<Libro> libros, Cliente cliente, LocalDate fechaCompra) {
 		super();
 		this.codigo = codigo;
 		this.libros = libros;
-		this.comprador = comprador;
+		this.cliente = cliente;
 		this.fechaCompra = fechaCompra;
 	}
 
@@ -69,11 +74,11 @@ public class Factura {
 
 
 	public Cliente getCliente() {
-		return comprador;
+		return cliente;
 	}
 
 	public void setCliente(Cliente cliente) {
-		this.comprador = cliente;
+		this.cliente = cliente;
 	}
 
 	public LocalDate getFechaCompra() {
@@ -92,13 +97,7 @@ public class Factura {
 		this.libros = libros;
 	}
 
-	public Cliente getComprador() {
-		return comprador;
-	}
-
-	public void setComprador(Cliente comprador) {
-		this.comprador = comprador;
-	}
+	
 	
 	
 }

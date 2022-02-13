@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<header>
+		<div th:insert="layout/header :: header"></div>
+	</header>
+	<div class = "container">
+		<div class="row">
+			<section class="col-md-9">
+				
+				<h1>Datos del comprador</h1>
+						<table class="table">
+						  <thead class="table-dark">
+						    <tr>
+						      <th scope="col">Codigo del cliente</th>
+						      <th scope="col">Apellido del comprador</th>
+						      <th scope="col">Nombre del comprador</th>
+						    </tr>
+						  </thead>
+						  <tbody>
+						    <tr >
+						      <th th:text="${cliente.codigo}"></th>
+						      <td th:text="${cliente.apellido}">></td>
+						      <td th:text="${cliente.nombre}">></td>
+						      <td ></td>
+						    </tr>
+						  </tbody>
+						</table>
+						
+						<h1>Datos de la venta</h1>
+						<table class="table">
+						  <thead class="table-dark">
+						    <tr>
+						      <th scope="col">Codigo de venta</th>
+						      <th scope="col">Fecha de Venta</th>
+						    </tr>
+						  </thead>
+						  <tbody>
+						    <tr th:each="compra:${factura}">
+						      <th th:text="${compra.codigo}"></th>
+						      <td th:text="${compra.fechaCompra}">></td>
+						      <td ></td>
+						    </tr>
+						  </tbody>
+						</table>
+						
+						
+						<h1>Libros vendidos</h1>
+						<table class="table">
+						  <thead class="table-dark">
+						    <tr>
+						      <th scope="col">Codigo de libro</th>
+						      <th scope="col">autor</th>
+						    </tr>
+						  </thead>
+						  <tbody>
+						    <tr th:each="libros:${libros}">
+						      <th th:text="${libros.codigo}"></th>
+						      <td th:text="${libros.autor}">></td>
+						      <td ></td>
+						    </tr>
+						  </tbody>
+						</table>
+			</section>
+			<aside class="col-md-3">
+				<div th:insert="layout/aside :: aside"></div>
+			</aside>
+		</div>
+	</div>
+	<footer>
+		<div th:insert="layout/footer :: footer"></div>
+	</footer>
+	
+	
+</body>
+</html>

@@ -34,6 +34,47 @@
 						</table>
 					</div>
 				</div>
+				
+				
+				<h1>Buscar Cliente</h1>
+						<form th:action="@{getCliente2}" th:object="${cliente}" method="POST">
+							<div class="row">
+								<div class="col-6">
+									<div class="mb-3 row">
+									<div class="col-1"></div>
+									<label for="exampleInputEmail1" class="form-label col-5">Código</label>	
+									<div class="col-6">
+										<input type="number" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" th:field="*{codigo}">
+									</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-6"></div>
+								<div class="col-4">
+									<button type="submit" class="btn btn-primary">Buscar Cliente</button>
+								</div>
+							</div>
+						</form>
+						<h1>Listado de ventas</h1>
+						<table class="table">
+						  <thead class="table-dark">
+						    <tr>
+						      <th scope="col">Codigo</th>
+						      <th scope="col">Fecha de Venta</th>
+						      <th scope="col">Libro vendido</th>
+						      <th scope="col">Apellido del Comprador</th>
+						    </tr>
+						  </thead>
+						  <tbody>
+						    <tr th:each="ventas:${cliente2.compras}">
+						      <th th:text="${ventas.codigo}"></th>
+						      <td th:text="${ventas.fechaCompra}"></td>
+						      <td ></td>
+						      <td th:text="${cliente2.apellido}"></td>
+						    </tr>
+						  </tbody>
+						</table>
 			</section>
 			<aside class="col-md-3">
 				<div th:insert="layout/aside :: aside"></div>

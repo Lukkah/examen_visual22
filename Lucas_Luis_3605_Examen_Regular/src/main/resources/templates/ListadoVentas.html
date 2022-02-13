@@ -12,38 +12,93 @@
 		<div class="row">
 			<section class = "col-md-9"> 
 				<div class="row">
-					<div class="col-md-12">
+						<div class=col-md-4>
+							<form th:action="@{getClienteLista}" th:object="${cliente}" method="POST">
+								<h2>Buscar Cliente</h2>
+								<div class="row">
+									<div class="col-12">
+										<div class="mb-3 row">
+										<div class="col-1"></div>
+										<label for="exampleInputEmail1" class="form-label col-5">Código</label>	
+										<div class="col-6">
+											<input type="number" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="numero de documento" th:field="*{codigo}">
+										</div>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-6"></div>
+									<div class="col-6">
+										<button type="submit" class="btn btn-primary">Buscar </button>
+									</div>
+								</div>
+							</form>
+							
+							<form th:action="@{getFactura}" th:object="${factura}" method="POST">
+								<h2>Buscar Factura</h2>
+								<div class="row">
+									<div class="col-12">
+										<div class="mb-3 row">
+										<div class="col-1"></div>
+										<label for="exampleInputEmail1" class="form-label col-5">Código</label>	
+										<div class="col-6">
+											<input type="number" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="numero de documento" th:field="*{codigo}">
+										</div>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-6"></div>
+									<div class="col-6">
+										<button type="submit" class="btn btn-primary">Buscar</button>
+									</div>
+								</div>
+							</form>
+						</div>
+						
+						<div class="col-8">
 						<h1>Listado de ventas</h1>
 						<table class="table">
 						  <thead class="table-dark">
 						    <tr>
-						      <th scope="col">#</th>
-						      <th scope="col">First</th>
-						      <th scope="col">Last</th>
-						      <th scope="col">Handle</th>
+						      <th scope="col">Codigo</th>
+						      <th scope="col">Fecha de Venta</th>
+						      <th scope="col">Libro vendido</th>
+						      <th scope="col">Apellido del Comprador</th>
 						    </tr>
 						  </thead>
 						  <tbody>
-						    <tr>
-						      <th scope="row">1</th>
-						      <td>Mark</td>
-						      <td>Otto</td>
-						      <td>@mdo</td>
-						    </tr>
-						    <tr>
-						      <th scope="row">2</th>
-						      <td>Jacob</td>
-						      <td>Thornton</td>
-						      <td>@fat</td>
-						    </tr>
-						    <tr>
-						      <th scope="row">3</th>
-						      <td colspan="2">Larry the Bird</td>
-						      <td>@twitter</td>
+						    <tr th:each="ventas:${ventasTotales}">
+						      <th th:text="${ventas.codigo}"></th>
+						      <td th:text="${ventas.fechaCompra}"></td>
+						      <td></td>
+						      <td></td>
 						    </tr>
 						  </tbody>
 						</table>
+						</div>
 					
+					
+					<div>
+					<h1>Libros vendidos</h1>
+							<table class="table">
+							  <thead class="table-dark">
+							    <tr>
+							      <th scope="col">Codigo</th>
+							      <th scope="col">Autor</th>
+							      <th scope="col">Fecha de Publicación</th>
+							      <th scope="col">Título</th>
+							    </tr>
+							  </thead>
+							  <tbody>
+							    <tr th:each="libros:${factura.libros}">
+							      <th th:text="${libros.codigo}"></th>
+							      <td th:text="${libros.autor}">></td>
+							      <td th:text="${libros.fechaPublicacion}">></td>
+							      <td th:text="${libros.nombre}"></td>
+							    </tr>
+							  </tbody>
+							</table>
 					</div>
 				</div>
 			</section>
