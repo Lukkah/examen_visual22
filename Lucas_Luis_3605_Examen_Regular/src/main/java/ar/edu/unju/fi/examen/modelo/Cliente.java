@@ -33,6 +33,9 @@ public class Cliente {
 	@Column
 	private String password;
 	
+	@Column
+	private String estado;
+	
 	@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
 	private List<Factura> compras = new ArrayList<Factura>();
 	
@@ -47,13 +50,25 @@ public class Cliente {
 	}
 	
 
-	public Cliente(int codigo, String apellido, String nombre, String usuario, String password, List<Factura> compras) {
+	
+	/**
+	 * @param codigo
+	 * @param apellido
+	 * @param nombre
+	 * @param usuario
+	 * @param password
+	 * @param estado
+	 * @param compras
+	 */
+	public Cliente(int codigo, String apellido, String nombre, String usuario, String password, String estado,
+			List<Factura> compras) {
 		super();
 		this.codigo = codigo;
 		this.apellido = apellido;
 		this.nombre = nombre;
 		this.usuario = usuario;
 		this.password = password;
+		this.estado = estado;
 		this.compras = compras;
 	}
 
@@ -105,6 +120,20 @@ public class Cliente {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	/**
+	 * @return the estado
+	 */
+	public String getEstado() {
+		return estado;
+	}
+
+	/**
+	 * @param estado the estado to set
+	 */
+	public void setEstado(String estado) {
+		this.estado = estado;
 	}
 	
 	

@@ -23,4 +23,13 @@ public interface IClienteDAO extends JpaRepository<Cliente, Long>{
 	 * @return un cliente
 	 */
 	public Cliente findByCodigo(int codigo);
+
+	/**
+	 * Obtiene un cliente en base al nombre de usuario
+	 * usado para el login
+	 * @param usuario
+	 * @return objeto de tipo cliente
+	 */
+	public Cliente findByUsuario(String usuario);
+
 }
