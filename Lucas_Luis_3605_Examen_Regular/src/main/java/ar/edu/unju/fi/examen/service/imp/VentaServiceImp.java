@@ -50,7 +50,7 @@ public class VentaServiceImp implements IVentaService {
 	 */
 	@Override
 	public void registrarVenta(List<Libro> libros, Cliente cliente) {
-		
+		double precioTotal = 0;
 		
 		//Lista de libros auxiliar que guardará los libros traidos de la base de datos
 		List<Libro> librosAux = new ArrayList<Libro>();
@@ -64,12 +64,15 @@ public class VentaServiceImp implements IVentaService {
 			//Debo traer los libros de la base de datos, ya que no puedo guardar la factura con
 			//una lista creada de forma auxiliar
 			librosAux.add(libroDaoImp.findByCodigo(libro.getCodigo()));
+			precioTotal = precioTotal + libroDaoImp.findByCodigo(libro.getCodigo()).getPrecio();
 		}
 		
 		//Registro los libros comprados en la factura
 		factura.setLibros(librosAux);
 		//Registro la fecha de compra
 		factura.setFechaCompra(LocalDate.now());
+		//Registro la suma de los precios de los libros en la factura
+		factura.setPrecioTotal(precioTotal);
 		
 		//Guardo la factura en la base de datos
 		ventaDaoImp.save(factura);

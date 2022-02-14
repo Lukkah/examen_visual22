@@ -63,16 +63,14 @@
 						    <tr>
 						      <th scope="col">Codigo</th>
 						      <th scope="col">Fecha de Venta</th>
-						      <th scope="col">Libro vendido</th>
-						      <th scope="col">Apellido del Comprador</th>
+						      <th scope="col">Precio Total</th>
 						    </tr>
 						  </thead>
 						  <tbody>
 						    <tr th:each="ventas:${ventasTotales}">
 						      <th th:text="${ventas.codigo}"></th>
 						      <td th:text="${ventas.fechaCompra}"></td>
-						      <td></td>
-						      <td></td>
+						      <td th:text="${ventas.precioTotal}"></td>
 						    </tr>
 						  </tbody>
 						</table>
@@ -88,6 +86,7 @@
 							      <th scope="col">Autor</th>
 							      <th scope="col">Fecha de Publicación</th>
 							      <th scope="col">Título</th>
+							      <th scope="col">Precio</th>
 							    </tr>
 							  </thead>
 							  <tbody>
@@ -96,6 +95,7 @@
 							      <td th:text="${libros.autor}">></td>
 							      <td th:text="${libros.fechaPublicacion}">></td>
 							      <td th:text="${libros.nombre}"></td>
+							      <td th:text="${libros.precio}"></td>
 							    </tr>
 							  </tbody>
 							</table>

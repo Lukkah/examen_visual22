@@ -30,6 +30,10 @@ public class Libro {
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate fechaPublicacion;
 	
+	
+	@Column
+	private double precio;
+	
 	//ToString------------------------------------------------------------------------
 	
 	@Override
@@ -45,13 +49,25 @@ public class Libro {
 		super();
 	}
 	
-	public Libro(int codigo, String nombre, String autor, LocalDate fechaPublicacion) {
+	
+	
+
+	/**
+	 * @param codigo
+	 * @param nombre
+	 * @param autor
+	 * @param fechaPublicacion
+	 * @param precio
+	 */
+	public Libro(int codigo, String nombre, String autor, LocalDate fechaPublicacion, double precio) {
 		super();
 		this.codigo = codigo;
 		this.nombre = nombre;
 		this.autor = autor;
 		this.fechaPublicacion = fechaPublicacion;
+		this.precio = precio;
 	}
+
 
 	//Métodos accesores----------------------------------------------------------------
 
@@ -102,6 +118,22 @@ public class Libro {
 	}
 
 
+	/**
+	 * @return the precio
+	 */
+	public double getPrecio() {
+		return precio;
+	}
+
+
+	/**
+	 * @param precio the precio to set
+	 */
+	public void setPrecio(double precio) {
+		this.precio = precio;
+	}
+
+	
 
 	
 	

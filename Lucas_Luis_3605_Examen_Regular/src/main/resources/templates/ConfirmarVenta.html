@@ -46,12 +46,12 @@
 						    </tr>
 						  </thead>
 						  <tbody>
-						    <tr th:each="libros:${libros}">
-						      <th th:text="${libros.codigo}"></th>
-						      <td th:text="${libros.autor}"></td>
-						      <td th:text="${libros.nombre}"></td>
-						      <td th:text="${libros.fechaPublicacion}"></td>
-						      <td ></td>
+						    <tr th:each="libro:${libros}">
+						      <th th:text="${libro.codigo}"></th>
+						      <td th:text="${libro.autor}"></td>
+						      <td th:text="${libro.nombre}"></td>
+						      <td th:text="${libro.fechaPublicacion}"></td>
+						      <td th:text="${libro.precio}"></td>
 						    </tr>
 						  </tbody>
 						</table>

@@ -62,7 +62,7 @@
 						    <tr>
 						      <th scope="col">Codigo</th>
 						      <th scope="col">Fecha de Venta</th>
-						      <th scope="col">Libro vendido</th>
+						      <th scope="col">Precio Total</th>
 						      <th scope="col">Apellido del Comprador</th>
 						    </tr>
 						  </thead>
@@ -70,7 +70,7 @@
 						    <tr th:each="ventas:${cliente2.compras}">
 						      <th th:text="${ventas.codigo}"></th>
 						      <td th:text="${ventas.fechaCompra}"></td>
-						      <td ></td>
+						      <td th:text="${ventas.precioTotal}"></td>
 						      <td th:text="${cliente2.apellido}"></td>
 						    </tr>
 						  </tbody>

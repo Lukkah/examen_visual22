@@ -44,6 +44,9 @@ public class Factura {
 	private LocalDate fechaCompra;
 	
 	
+	@Column
+	private double precioTotal;
+	
 	//ToString-----------------------------------------------------------------------
 	
 	@Override
@@ -58,15 +61,24 @@ public class Factura {
 
 	
 
-	public Factura(int codigo, List<Libro> libros, Cliente cliente, LocalDate fechaCompra) {
+	
+	
+	/**
+	 * @param codigo
+	 * @param libros
+	 * @param cliente
+	 * @param fechaCompra
+	 * @param precioTotal
+	 */
+	public Factura(int codigo, List<Libro> libros, Cliente cliente, LocalDate fechaCompra, double precioTotal) {
 		super();
 		this.codigo = codigo;
 		this.libros = libros;
 		this.cliente = cliente;
 		this.fechaCompra = fechaCompra;
+		this.precioTotal = precioTotal;
 	}
 
-	
 	//Métodos accesores---------------------------------------------------------------
 	
 	public int getCodigo() {
@@ -100,6 +112,20 @@ public class Factura {
 
 	public void setLibros(List<Libro> libros) {
 		this.libros = libros;
+	}
+
+	/**
+	 * @return the precioTotal
+	 */
+	public double getPrecioTotal() {
+		return precioTotal;
+	}
+
+	/**
+	 * @param precioTotal the precioTotal to set
+	 */
+	public void setPrecioTotal(double precioTotal) {
+		this.precioTotal = precioTotal;
 	}
 
 	
