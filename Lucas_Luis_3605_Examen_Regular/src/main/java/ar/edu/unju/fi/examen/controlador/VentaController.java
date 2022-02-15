@@ -3,11 +3,14 @@ package ar.edu.unju.fi.examen.controlador;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,6 +23,7 @@ import ar.edu.unju.fi.examen.modelo.Libro;
 import ar.edu.unju.fi.examen.service.IClienteService;
 import ar.edu.unju.fi.examen.service.ILibroService;
 import ar.edu.unju.fi.examen.service.IVentaService;
+import ar.edu.unju.fi.examen.util.Util;
 
 @Controller
 public class VentaController {
@@ -61,61 +65,24 @@ public class VentaController {
 		
 		//Limpio la lista de libros
 		libros = new ArrayList<Libro>();
-		
+		cliente = clienteServiceImp.getClienteByCodigo(Util.clienteUtil.getCodigo());
 		model.addAttribute("libros",new ArrayList<Libro>());
 		model.addAttribute("libro", new Libro());
-		model.addAttribute("cliente",new Cliente());
+		model.addAttribute("cliente",cliente);
 	return "VentaLibro";
 	}
 
-	/**
-	 * Método para buscar el cliente al que se le agregará la factura de compra con el listado de 
-	 * libros
-	 * 
-	 * *************************************************
-	 * Este método no debe existir!!!!!!!!
-	 * 
-	 * Debo tener los datos del cliente ya cargados, no debo seleccionarlos manualmente
-	 * Deben venir desde que se inicia sesión
-	 * 
-	 * ************************************************
-	 *
-	 * @param cliente
-	 * @param model
-	 * @return redirección a una página de confirmación con la factura agregada al cliente
-	 */
-	@PostMapping("getCliente")
-	public ModelAndView getCliente(@ModelAttribute("cliente") Cliente cliente) {
-		ModelAndView model = new ModelAndView("VentaLibro");
-		LOGGER.info("CONTROLLER: VentaController w /getCliente POST METHOD");
-		LOGGER.info("METHOD: getCliente()");
-		LOGGER.info("RESULT: Obtiene un cliente de la base de datos según el código");
-		
-		LOGGER.info("Codigo del cliente(parámetro) "+cliente.getCodigo() + 
-					" // apellido del cliente(parámetro) "+cliente.getApellido());
-		
-		LOGGER.info("Codigo del cliente encontrado: "+
-					clienteServiceImp.getClienteByCodigo(cliente.getCodigo()).getCodigo()+ 
-					"// apellido del cliente encontrado: "+
-					clienteServiceImp.getClienteByCodigo(cliente.getCodigo()).getApellido());
-		
-
-		this.cliente = clienteServiceImp.getClienteByCodigo(cliente.getCodigo());
-		model.addObject("cliente",clienteServiceImp.getClienteByCodigo(cliente.getCodigo()));
-		model.addObject("libro",new Libro());
-		return model;
-	}
 	
 	/**
 	 * Método que busca un libro en la base de datos
 	 * para agregar los seleccionados en una lista que se asignarán 
 	 * posteriormente a una factura
-	 * @param libro
+	 * @param libro Utilizo @Valid y BindingResult por si se ingresa un valor que no pueda ser guardado, como 123123123123123123132 o simplemente nada
 	 * @param model
 	 * @return listado de libros a la página de ventas
 	 */
 	@PostMapping("getLibro")
-	public ModelAndView addLibroToList(@ModelAttribute("libro") Libro libro) {
+	public ModelAndView addLibroToList(@Valid @ModelAttribute("libro") Libro libro, BindingResult resultadoValidacion) {
 		LOGGER.info("CONTROLLER: VentaController w /getLibro POST METHOD");
 		LOGGER.info("METHOD: addLibroToList()");
 		LOGGER.info("RESULT: Obtiene un cliente de la base de datos según el código");
@@ -128,7 +95,11 @@ public class VentaController {
 		//Agrego cliente para que cuando seleccione un libro no se borre de la lista
 		model.addObject(cliente);
 		
-		LOGGER.info(
+		if(libroServiceImp.getLibroByCodigo(libro.getCodigo()) == null) {
+
+			model.addObject("formVentaErrorMessage", "No existe el libro seleccionado");
+		}else {
+			LOGGER.info(
 					"Libro obtenido "+libroServiceImp.getLibroByCodigo(libro.getCodigo()).getCodigo() + 
 					" autor: "+ libroServiceImp.getLibroByCodigo(libro.getCodigo()).getAutor());
 		
@@ -137,6 +108,9 @@ public class VentaController {
 		 * debería limpiarse cuando se realice la venta
 		 */
 		libros.add(libroServiceImp.getLibroByCodigo(libro.getCodigo()));
+		}
+		
+		
 		
 		//Con cada libro nuevo se va guardando la lista actualizada
 		model.addObject("libros",libros);
@@ -166,27 +140,25 @@ public class VentaController {
 		LOGGER.info("Cantidad de libros comprados: "+ libros.size());
 		LOGGER.info("Total a pagar: ");
 		
-		//Método de la capa de servicio que registra una venta
-		ventaServiceImp.registrarVenta(libros, cliente);
+		if(libros.size()==0) {
+			model.addAttribute("formConfirmVentaErrorMessage","Debe seleccionar algún libro para realizar la compra");
 		
-		
-		//limpio la lista de libros
-		libros = new ArrayList<Libro>();
-		
-		/**********************************************************************************
-		 * 
-		 * 
-		 * Obtener última venta realizada y agregarla al model para visualizarla
-		 * 								   ---
-		 * 									*
-		 * 									*
-		 * 									*
-		 * 									V
-		 * *************************************************************************
-		 */
-		model.addAttribute("factura",new Factura());
-		
-		return "ConfirmarVenta";
+			return "VentaLibro";
+		}else {
+			//Método de la capa de servicio que registra una venta
+			ventaServiceImp.registrarVenta(libros, cliente);
+			
+
+			// Obtener última venta realizada y agregarla al model para visualizarla
+			model.addAttribute("factura",
+					clienteServiceImp.getClienteByCodigo(cliente.getCodigo()).getCompras()
+					.get(clienteServiceImp.getClienteByCodigo(cliente.getCodigo()).getCompras().size()-1));
+			
+			//limpio la lista de libros
+			libros = new ArrayList<Libro>();
+			return "ConfirmarVenta";
+			
+		}
 	}
 	
 	
@@ -212,72 +184,48 @@ public class VentaController {
 		 * previamente de la base de datos
 		 * 
 		 */
+		cliente = clienteServiceImp.getClienteByCodigo(Util.clienteUtil.getCodigo());
 		model.addAttribute("cliente",cliente);
 		model.addAttribute("factura",new Factura());
+
+		model.addAttribute("ventasTotales",cliente.getCompras());
 		return "ListadoVentas";
 	}
 	
-	/**
-	 * ******************************************************************
-	 * !!!!!!!!!!!!!!!Este método no debe existir!!!!!!!!
-	 * 
-	 * Debo tener los datos del cliente ya cargados, no debo seleccionarlos manualmente
-	 * Deben venir desde que se inicia sesión
-	 * ******************************************************************
-	 * @param cliente2
-	 * @return
-	 */
-	@PostMapping("/getClienteLista")
-	public ModelAndView getCliente2(@ModelAttribute("cliente") Cliente cliente2) {
-		LOGGER.info("CONTROLLER: VentaController w /getClienteLista POST METHOD");
-		LOGGER.info("METHOD: getCliente2()");
-		LOGGER.info("RESULT: Obtiene un cliente de la base de datos según el código");
-		
-		LOGGER.info("Codigo del cliente(parámetro) "+cliente2.getCodigo() + 
-					" // apellido del cliente(parámetro) "+cliente2.getApellido());
-		
-		LOGGER.info("Codigo del cliente encontrado: "+
-					clienteServiceImp.getClienteByCodigo(cliente2.getCodigo()).getCodigo()+ 
-					"// apellido del cliente encontrado: "+
-					clienteServiceImp.getClienteByCodigo(cliente2.getCodigo()).getApellido());
-		
-		ModelAndView model = new ModelAndView("ListadoVentas");
-		cliente = clienteServiceImp.getClienteByCodigo(cliente2.getCodigo());
-		model.addObject("cliente2",clienteServiceImp.getClienteByCodigo(cliente2.getCodigo()));
-		model.addObject("factura",new Factura());
-		
-		LOGGER.info("cliente elegido: "+ cliente.getApellido());
-		model.addObject("ventasTotales",cliente.getCompras());
-		return model;
-	}
-	
-	
 	@PostMapping("getFactura")
-	public ModelAndView getLibrosVendidos(@ModelAttribute("factura") Factura factura) {
+	public ModelAndView getLibrosVendidos(@Valid @ModelAttribute("factura") Factura factura, BindingResult validacionResultado) {
 		LOGGER.info("CONTROLLER: VentaController w /getFactura POST METHOD");
 		LOGGER.info("METHOD: getLibrosVendidos()");
 		LOGGER.info("RESULT: Obtiene los libros vendidos de una factura determinada");
 		
 		ModelAndView model = new ModelAndView("ListadoVentas");
 		
-		LOGGER.info("Numero de factura entrante: " + factura.getCodigo());
-		LOGGER.info("Codigo del comprador: " + cliente.getCodigo());
-		LOGGER.info("Apellido del comprador: " + cliente.getApellido());
-		
-		LOGGER.info("*************** Datos de factura *****************");
-		LOGGER.info("Fecha de factura "+ clienteServiceImp.getFacturaByCodigo(factura.getCodigo(),cliente).getFechaCompra());
-		LOGGER.info("Código de la factura: " + clienteServiceImp.getFacturaByCodigo(factura.getCodigo(),cliente).getCodigo());
-		LOGGER.info("Cantidad de libros comprados: "+clienteServiceImp.getFacturaByCodigo(factura.getCodigo(),cliente).getLibros().size());
-		
-		//Envío la factura que se recuperda desde la base de datos, según el código de factura
-		model.addObject("factura",clienteServiceImp.getFacturaByCodigo(factura.getCodigo(),cliente));
-		
-		//Envío el listado de compras(facturas) del cliente guardado en el objeto auxiliar
-		model.addObject("ventasTotales",cliente.getCompras());
-		
-		//Envío el cliente que se ha recuperado de la base de datos en métodos anteriores
-		//y se ha guardado en un objeto auxiliar
-		model.addObject("cliente",cliente);
+		//En caso de ingresar un valor incorrecto para la factura, sólo se muestra la página
+		if(clienteServiceImp.getFacturaByCodigo(factura.getCodigo(),cliente) == null) {
+			model.addObject("formFacturaListErrorMessage", "No existe la factura seleccionada");
+			model.addObject("cliente",cliente);
+			model.addObject("factura",new Factura());
+			model.addObject("ventasTotales",cliente.getCompras());
+		}else {//Si se ingresa un valor correcto para el código de la factura entonces se realiza el flujo normal
+			LOGGER.info("Numero de factura entrante: " + factura.getCodigo());
+			LOGGER.info("Codigo del comprador: " + cliente.getCodigo());
+			LOGGER.info("Apellido del comprador: " + cliente.getApellido());
+			
+			LOGGER.info("*************** Datos de factura *****************");
+			LOGGER.info("Fecha de factura "+ clienteServiceImp.getFacturaByCodigo(factura.getCodigo(),cliente).getFechaCompra());
+			LOGGER.info("Código de la factura: " + clienteServiceImp.getFacturaByCodigo(factura.getCodigo(),cliente).getCodigo());
+			LOGGER.info("Cantidad de libros comprados: "+clienteServiceImp.getFacturaByCodigo(factura.getCodigo(),cliente).getLibros().size());
+			
+			//Envío la factura que se recuperda desde la base de datos, según el código de factura
+			model.addObject("factura",clienteServiceImp.getFacturaByCodigo(factura.getCodigo(),cliente));
+			
+			//Envío el listado de compras(facturas) del cliente guardado en el objeto auxiliar
+			model.addObject("ventasTotales",cliente.getCompras());
+			
+			//Envío el cliente que se ha recuperado de la base de datos en métodos anteriores
+			//y se ha guardado en un objeto auxiliar
+			model.addObject("cliente",cliente);
+		}
 		return model;
 	}
 	

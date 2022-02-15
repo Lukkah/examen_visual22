@@ -16,8 +16,8 @@
 						<table class="table">
 						  <thead class="table-dark">
 						    <tr>
-						      <th scope="col">Apellido del comprador</th>
-						      <th scope="col">Nombre del comprador</th>
+						      <th scope="col">Código de Factura</th>
+						      <th scope="col">Apellido y nombre del comprador</th>
 						      <th scope="col">Fecha de compra</th>
 						      <th scope="col">Total pagado</th>
 						      <th scope="col">Cantidad de libros</th>
@@ -25,11 +25,11 @@
 						  </thead>
 						  <tbody>
 						    <tr >
-						      <td th:text="${cliente.apellido}">></td>
-						      <td th:text="${cliente.nombre}">></td>
+						      <td th:text="${factura.codigo}"></td>
+						      <td th:text="${cliente.apellido} + ', ' + ${cliente.nombre}"></td>
 						      <td th:text="${factura.fechaCompra}"></td>
-						      <td ></td>
-						      <td ></td>
+						      <td th:text="${factura.precioTotal}"></td>
+						      <td th:text="${factura.libros.size}"></td>
 						    </tr>
 						  </tbody>
 						</table>

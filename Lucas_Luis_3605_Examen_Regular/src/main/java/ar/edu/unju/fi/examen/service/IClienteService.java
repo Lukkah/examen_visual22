@@ -19,9 +19,7 @@ public interface IClienteService {
 	 * @param factura
 	 * @param cliente
 	 */
-	//public void generateClientesList();
 	
-	//public void addFacturaToClient(Factura factura, Cliente cliente);
 
 	
 }

@@ -39,10 +39,10 @@ public class Factura {
 	@JoinColumn(name = "CLIENTE_ID")
 	private Cliente cliente;
 	
+	
 	@Column(name = "FECHA_COMPRA")
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate fechaCompra;
-	
 	
 	@Column
 	private double precioTotal;

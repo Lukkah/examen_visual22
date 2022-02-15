@@ -10,6 +10,6 @@ public interface ILibroService {
 	
 	public Libro getLibroByCodigo(int codigo);
 	
-	//public void generateLibrosList();
+	
 	
 }

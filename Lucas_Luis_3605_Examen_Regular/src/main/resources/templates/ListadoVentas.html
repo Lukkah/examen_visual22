@@ -13,37 +13,18 @@
 			<section class = "col-md-9"> 
 				<div class="row">
 						<div class=col-md-4>
-							<form th:action="@{getClienteLista}" th:object="${cliente}" method="POST">
-								<h2>Buscar Cliente</h2>
-								<div class="row">
-									<div class="col-12">
-										<div class="mb-3 row">
-										<div class="col-1"></div>
-										<label for="exampleInputEmail1" class="form-label col-5">Código</label>	
-										<div class="col-6">
-											<input type="number" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="numero de documento" th:field="*{codigo}">
-										</div>
-										</div>
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-6"></div>
-									<div class="col-6">
-										<button type="submit" class="btn btn-primary">Buscar </button>
-									</div>
-								</div>
-							</form>
-							
 							<form th:action="@{getFactura}" th:object="${factura}" method="POST">
 								<h2>Buscar Factura</h2>
 								<div class="row">
 									<div class="col-12">
 										<div class="mb-3 row">
-										<div class="col-1"></div>
-										<label for="exampleInputEmail1" class="form-label col-5">Código</label>	
+										<label for="exampleInputEmail1" class="form-label col-6">Código</label>	
 										<div class="col-6">
-											<input type="number" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="numero de documento" th:field="*{codigo}">
+											<input type="number" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" th:field="*{codigo}">
 										</div>
+										<div class="alert-danger text-center mt-2"
+											th:if="${formFacturaListErrorMessage}"
+											th:text="${formFacturaListErrorMessage}">Name Error</div>
 										</div>
 									</div>
 								</div>
@@ -56,7 +37,7 @@
 							</form>
 						</div>
 						
-						<div class="col-8">
+						<div class="col-md-8">
 						<h1>Listado de ventas</h1>
 						<table class="table">
 						  <thead class="table-dark">

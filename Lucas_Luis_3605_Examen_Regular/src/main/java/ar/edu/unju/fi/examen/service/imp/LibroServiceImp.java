@@ -38,37 +38,9 @@ public class LibroServiceImp implements ILibroService {
 	 */
 	@Override
 	public Libro getLibroByCodigo(int codigo) {
-		/*
-		Libro libro3 = new Libro();
-		for (Libro	libro : libros) {
-			if(libro.getCodigo()==codigo){
-				libro3 = libro;
-			}
-		}
-		return libro3;
-		*/
+		
 		return libroDao.findByCodigo(codigo);
 	}
 
-	/**
-	@Override
-	public void generateLibrosList() {
-		if(libros.size() == 0) {
-			libro1.setAutor("HP");
-			libro1.setCodigo(1);
-			libro1.setNombre("Dagoon");
-			libro1.setFechaPublicacion(LocalDate.now());
-			
-			libros.add(libro1);
-			
-			libro2.setAutor("LoveCraft");
-			libro2.setCodigo(2);
-			libro2.setNombre("Call of Cthulhu");
-			libro2.setFechaPublicacion(LocalDate.now());
-			
-			libros.add(libro2);
-		}
-
-	}
-	*/
+	
 }

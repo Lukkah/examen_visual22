@@ -20,16 +20,16 @@ public class Libro {
 	@Column(nullable =false)
 	private int codigo;
 	
+
 	@Column
 	private String nombre;
 	
+
 	@Column
 	private String autor;
 	
-	@Column(name = "FECHA_PUBLICACION")
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate fechaPublicacion;
-	
 	
 	@Column
 	private double precio;

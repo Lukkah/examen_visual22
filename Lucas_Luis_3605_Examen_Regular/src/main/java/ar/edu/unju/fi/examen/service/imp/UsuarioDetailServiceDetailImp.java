@@ -3,6 +3,8 @@ package ar.edu.unju.fi.examen.service.imp;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -15,10 +17,16 @@ import org.springframework.stereotype.Service;
 
 import ar.edu.unju.fi.examen.modelo.Cliente;
 import ar.edu.unju.fi.examen.repository.IClienteDAO;
+import ar.edu.unju.fi.examen.service.IClienteService;
+import ar.edu.unju.fi.examen.util.Util;
 
 @Service
 public class UsuarioDetailServiceDetailImp implements UserDetailsService{
-
+	private static final Log LOGGER = LogFactory.getLog("UsuarioDetailServiceDetailImp");
+	
+	@Autowired
+	IClienteService clienteServiceImp;
+	
 	@Autowired
 	IClienteDAO clienteDaoImp;
 	
@@ -40,6 +48,13 @@ public class UsuarioDetailServiceDetailImp implements UserDetailsService{
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		//Busco en la base de datos un usuario con este nombre
 		Cliente cliente = clienteDaoImp.findByUsuario(username);
+		
+		Util.clienteUtil = clienteDaoImp.findByUsuario(username);
+		LOGGER.info("************************* Cliente que inició sesión login ********************************");
+
+		LOGGER.info(clienteDaoImp.findByUsuario(username).getApellido());
+		
+		
 		//Clase que construirá los detalles de la clase cliente para la autenticación
 		UserBuilder builder = null;
 		

@@ -44,9 +44,11 @@
 									<div class="col-1"></div>
 									<label for="exampleInputEmail1" class="form-label col-5">Código</label>	
 									<div class="col-6">
-										<input type="number" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" th:field="*{codigo}">
+										<input type="number" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="codigo" th:field="*{codigo}">
 									</div>
-									</div>
+									<div class="alert-danger text-center mt-2"
+										th:if="${formUsuarioErrorMessage}"
+										th:text="${formUsuarioErrorMessage}">Name Error</div>
 								</div>
 							</div>
 							<div class="row">

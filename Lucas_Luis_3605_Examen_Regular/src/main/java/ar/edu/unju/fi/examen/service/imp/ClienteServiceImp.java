@@ -28,7 +28,6 @@ public class ClienteServiceImp implements IClienteService{
 	@Autowired
 	IClienteDAO clienteDaoImp;
 	
-	
 	@Autowired
 	IVentaService facturaServiceImp;
 	
@@ -47,21 +46,6 @@ public class ClienteServiceImp implements IClienteService{
 	@Override
 	public Cliente getClienteByCodigo(int codigo) {
 		
-		/*
-		Cliente cliente3 = new Cliente();
-		LOGGER.info("Codigo entrante: "+ codigo);
-		for (Cliente cliente : clientes) {
-
-			LOGGER.info("Codigo entrante: "+ codigo + " == Codigo cliente en for: "+ cliente.getCodigo());
-			
-			if(cliente.getCodigo()==codigo){
-				LOGGER.info("Codigo entrante: "+ codigo + " == Codigo cliente encontrado: "+ cliente.getCodigo());
-				cliente3 = cliente;
-			}
-		}
-		LOGGER.info("Codigo entrante: "+ codigo + " == Codigo cliente saliente: "+ cliente3.getCodigo());
-		return cliente3;
-		*/
 		return clienteDaoImp.findByCodigo(codigo);
 	}
 
@@ -82,8 +66,6 @@ public class ClienteServiceImp implements IClienteService{
 			//Almaceno la factura encontrada cuyo código coincide con el enviado por parámetro
 			if(factura.getCodigo() == codigoFactura) {
 				facturaAux = factura;
-				//LOGGER.info("---------Factura encontrada-------------");
-				//LOGGER.info("codigo: " + facturaAux.getLibros().size());
 			}
 		}
 		
@@ -91,49 +73,6 @@ public class ClienteServiceImp implements IClienteService{
 		return facturaAux;
 	}
 
-	/*
-	 * 
-	@Override
-	public void generateClientesList() {
-		if(clientes.size()==0) {
-			facturaServiceImp.generateFacturaList();
-			cliente1.setCodigo(1);
-			cliente1.setApellido("Lucas");
-			cliente1.setNombre("Luis");
-			cliente1.setUsuario("Daren");
-			
-			LOGGER.info("Tamaño de factura en cliente service imp: "+ facturaServiceImp.getFacturaList().size());
-			cliente1.setCompras(facturaServiceImp.getFacturaList());
-			
-			clientes.add(cliente1);
-			
-			cliente2.setCodigo(2);
-			cliente2.setApellido("Cruz");
-			cliente2.setNombre("Ruth");
-			cliente2.setUsuario("Jack");
-			clientes.add(cliente2);
-			
-		}
-	}
-	*/
-	
-	/**
-	 * ???????????????????????
-	 
-	@Override
-	public void addFacturaToClient(Factura factura, Cliente cliente) {
-		List<Factura> facturasAux = new ArrayList<Factura>();
-		
-		facturasAux = cliente.getCompras();
-		facturasAux.add(factura);
-		
-		for (int i=0;i<clientes.size();i++) {
-			if(clientes.get(i).getCodigo() == cliente.getCodigo()) {
-				clientes.get(i).setCompras(facturasAux);
-			}
-		}
-	}
-	*/
 	
 	
 }
